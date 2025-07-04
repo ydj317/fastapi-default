@@ -145,6 +145,7 @@ dependencies = [
     { name = "aiomysql" },
     { name = "fastapi", extra = ["all"] },
     { name = "jinja2" },
+    { name = "python-dotenv" },
     { name = "sqlalchemy", extra = ["asyncio"] },
 ]
 
@@ -153,6 +154,7 @@ requires-dist = [
     { name = "aiomysql", specifier = ">=0.2.0" },
     { name = "fastapi", extras = ["all"], specifier = ">=0.115.14" },
     { name = "jinja2", specifier = ">=3.1.6" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.41" },
 ]
 

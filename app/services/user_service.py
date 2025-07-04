@@ -10,7 +10,7 @@ class UserService:
         self.session = session
 
     async def create_user(self, user: UserCreate):
-        sql = "INSERT INTO users (name, email) VALUES (:name, :email)"
+        sql = render_sql("user/create_user.sql", {})
         await self.session.execute(text(sql), {"name": user.name, "email": user.email})
         await self.session.commit()
 
