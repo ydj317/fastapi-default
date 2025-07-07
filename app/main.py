@@ -1,19 +1,25 @@
 from fastapi import FastAPI
-from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
-from app.page import router as page_router
-from app.api import router as api_router
-from app.db.session import db
+from app.containers import Container
+from contextlib import asynccontextmanager
+from app.routes import router
+from app.core.logging_config import setup_logging
+from app.middleware.logging_middleware import LoggingMiddleware
+
+setup_logging()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await db.connect()
+    container = Container()
+    app.container = container
+    await container.init_resources()
     yield
-    await db.disconnect()
+    await container.shutdown_resources()
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
-app.include_router(page_router)
-app.include_router(api_router, prefix="/api")
+app.add_middleware(LoggingMiddleware)
+
+app.include_router(router)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
