@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from app.containers import Container
 from contextlib import asynccontextmanager
@@ -17,6 +18,13 @@ async def lifespan(app: FastAPI):
     await container.shutdown_resources()
 
 app = FastAPI(lifespan=lifespan)
+
+@app.exception_handler(Exception)
+async def catch_all_exceptions(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"success": False, "message": "Server Error", "detail": str(exc)},
+    )
 
 app.add_middleware(LoggingMiddleware)
 
