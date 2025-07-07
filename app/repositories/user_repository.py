@@ -5,5 +5,5 @@ class UserRepository:
         self.db = db
 
     async def get_all(self):
-        result = await self.db.fetch_all("SELECT * FROM users")
-        return result
+        users = await self.db.fetch_all("SELECT * FROM users")
+        return [dict(user) for user in users]
