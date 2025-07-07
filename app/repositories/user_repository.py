@@ -1,10 +1,9 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
+from databases import Database
 
 class UserRepository:
-    def __init__(self, session: AsyncSession):
-        self.session = session
+    def __init__(self, db: Database):
+        self.db = db
 
     async def get_all(self):
-        result = await self.session.execute(text("SELECT * FROM users"))
-        return [dict(row._mapping) for row in result.fetchall()]
+        result = await self.db.fetch_all("SELECT * FROM users")
+        return result

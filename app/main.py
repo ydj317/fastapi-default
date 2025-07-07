@@ -5,6 +5,7 @@ from app.containers import Container
 from contextlib import asynccontextmanager
 from app.routes import router
 from app.core.logging_config import setup_logging
+from app.db.database import database
 from app.middleware.logging_middleware import LoggingMiddleware
 
 setup_logging()
@@ -12,10 +13,20 @@ setup_logging()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     container = Container()
+    container.init_resources()
+    container.wire(modules=["app.routes"])
+
     app.container = container
-    await container.init_resources()
+
+    await database.connect()
+    print("✅ Database connected")
+
     yield
-    await container.shutdown_resources()
+
+    await database.disconnect()
+    print("🔌 Database disconnected")
+
+    container.shutdown_resources()
 
 app = FastAPI(lifespan=lifespan)
 
