@@ -1,9 +1,9 @@
 from typing import Generic, TypeVar, Optional
-from pydantic.generics import GenericModel
+from pydantic import BaseModel
 
 T = TypeVar("T")
 
-class Res(GenericModel, Generic[T]):
+class Res(BaseModel, Generic[T]):
     success: bool = True
     message: str = "성공"
     data: Optional[T] = None
