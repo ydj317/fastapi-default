@@ -20,17 +20,8 @@ async def lifespan(app: FastAPI):
     container = Container()
     await container.init_resources()
     container.wire(modules=["app.routes"])
-
     app.container = container
-
-    await database.connect()
-    print("✅ Database connected")
-
     yield
-
-    await database.disconnect()
-    print("🔌 Database disconnected")
-
     await container.shutdown_resources()
 
 app = FastAPI(lifespan=lifespan)

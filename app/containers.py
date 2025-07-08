@@ -5,6 +5,15 @@ from app.repositories.user_repository import UserRepository
 from app.services.user_service import UserService
 from app.core.redis import get_redis
 
+async def get_database():
+    await database.connect()
+    print("✅ Database connected")
+    try:
+        yield database
+    finally:
+        await database.disconnect()
+        print("🔌 Database disconnected")
+
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(packages=["app.routes"])
 
@@ -15,7 +24,7 @@ class Container(containers.DeclarativeContainer):
 
     redis = providers.Resource(get_redis, url=config.redis_url)
 
-    db = providers.Singleton(lambda: database)
+    db = providers.Resource(get_database)
 
     user_repository = providers.Factory(UserRepository, db=db)
     user_service = providers.Factory(UserService, repo=user_repository)
