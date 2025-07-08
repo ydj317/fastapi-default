@@ -13,7 +13,7 @@ setup_logging()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     container = Container()
-    container.init_resources()
+    await container.init_resources()
     container.wire(modules=["app.routes"])
 
     app.container = container
@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     await database.disconnect()
     print("🔌 Database disconnected")
 
-    container.shutdown_resources()
+    await container.shutdown_resources()
 
 app = FastAPI(lifespan=lifespan)
 
