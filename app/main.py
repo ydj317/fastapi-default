@@ -9,6 +9,9 @@ from app.db.database import database
 from app.middleware.logging_middleware import LoggingMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.exceptions import RequestValidationError
+from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
+from app.models.response import Res
 import os
 
 setup_logging()
@@ -37,7 +40,11 @@ app = FastAPI(lifespan=lifespan)
 async def catch_all_exceptions(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
-        content={"success": False, "message": "Server Error", "detail": str(exc)},
+        content={
+            "success": False,
+            "message": f"Server Error",
+            "data": {},
+        },
     )
 
 app.add_middleware(LoggingMiddleware)
@@ -53,7 +60,7 @@ app.include_router(router)
 
 app.mount("/static", StaticFiles(directory="app/templates/static"), name="static")
 
-# ✅ 없는 라우트 fallback: public/index.html 또는 404.html 등
+
 @app.exception_handler(StarletteHTTPException)
 async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
     if exc.status_code == 404:
@@ -65,8 +72,23 @@ async def custom_http_exception_handler(request: Request, exc: StarletteHTTPExce
             index_path = os.path.join("public", "index.html")
             if os.path.isfile(index_path):
                 return FileResponse(index_path)
-    # 기본 예외 핸들링
+
     return JSONResponse(
         status_code=exc.status_code,
-        content={"detail": exc.detail},
+        content={
+            "success": False,
+            "message": exc.detail,
+            "data": {},
+        },
+    )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=HTTP_422_UNPROCESSABLE_ENTITY,
+        content={
+            "success": False,
+            "message": "Request validation error",
+            "data": {"errors": exc.errors()},
+        },
     )
