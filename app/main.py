@@ -11,7 +11,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.exceptions import RequestValidationError
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
-from app.models.response import Res
 import os
 
 setup_logging()
