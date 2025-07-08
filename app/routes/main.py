@@ -4,6 +4,6 @@ from app.utils.template import Template
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/main")
 def get_main(template: Template = Depends()):
     return template.response('index.html', {"name": "Hello!!!"})

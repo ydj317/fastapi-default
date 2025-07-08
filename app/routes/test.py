@@ -11,6 +11,10 @@ from celery.result import AsyncResult
 
 router = APIRouter()
 
+@router.get("/test/exception")
+def rase_exception():
+    raise Exception('rase exception!!!')
+
 @router.get("/test/task/add")
 def run_add_task(a: int, b: int):
     result = add.delay(a, b)
