@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from app.containers import Container
 from contextlib import asynccontextmanager
 from app.routes import router
-from app.core.logging_config import setup_logging
+from app.core.setup import setup_logging
 from app.db.database import database
 from app.middleware.logging_middleware import LoggingMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -46,7 +46,7 @@ async def catch_all_exceptions(request: Request, exc: Exception):
         },
     )
 
-app.add_middleware(LoggingMiddleware)
+# app.add_middleware(LoggingMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
