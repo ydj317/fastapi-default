@@ -24,7 +24,7 @@
                 
                 const result = await response.json();
                 
-                if (result.success) {
+                if (result.code === 200) {
                     // Set cookie with 2 hour expiration
                     const date = new Date();
                     date.setTime(date.getTime() + (2 * 60 * 60 * 1000));

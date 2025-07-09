@@ -7,9 +7,9 @@ from app.services.user_service import UserService
 from app.core.containers import Container
 from app.models.response import Res
 from pydantic import BaseModel
-from app.auth.jwt import create_access_token
+from app.utils.jwt import create_access_token
 from datetime import timedelta
-from app.auth.dependencies import get_token_info
+from app.core.auth import get_token_info
 from app.utils.logs import Logs
 
 router = APIRouter()
