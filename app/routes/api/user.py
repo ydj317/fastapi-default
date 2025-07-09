@@ -7,7 +7,7 @@ from app.services.user_service import UserService
 from app.core.containers import Container
 from app.models.response import Res
 from pydantic import BaseModel
-from app.utils.jwt import create_access_token
+from app.utils.jwt import create_token
 from datetime import timedelta
 from app.core.auth import get_token_info
 from app.utils.logs import Logs
@@ -36,7 +36,7 @@ async def user_join(
 async def user_login(login_request: LoginRequest):
     print(login_request)
     user = {"sub": login_request.username, **dict(login_request)}
-    token = create_access_token(user, timedelta(minutes=5))
+    token = create_token(user, timedelta(minutes=120))
     return Res(data={"token": token})
 
 
