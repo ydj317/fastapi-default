@@ -1,5 +1,7 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
+
+from app.exceptions.PageAuthException import PageAuthException
 from app.utils.jwt import decode_token
 from app.models.token import TokenInfo
 
@@ -13,3 +15,14 @@ async def get_token_info(token: str = Depends(oauth2_scheme)):
     if not payload or "sub" not in payload:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     return TokenInfo(**payload)
+
+async def get_token_by_cookie(request: Request):
+    try:
+        token = request.cookies.get("token")
+        payload = decode_token(token)
+        if not payload or "sub" not in payload:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        return TokenInfo(**payload)
+    except Exception:
+        raise PageAuthException('authentication failed')
+

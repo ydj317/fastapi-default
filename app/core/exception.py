@@ -5,6 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 import os
 
+from app.exceptions.PageAuthException import PageAuthException
 from app.exceptions.SystemException import SystemException
 
 
@@ -52,6 +53,10 @@ def register_exception_handlers(app: FastAPI):
                 "data": {"errors": exc.errors()},
             },
         )
+    @app.exception_handler(PageAuthException)
+    async def system_exception_handler(request: Request, exc: PageAuthException):
+        requested_path = os.path.join("public", "error.html")
+        return FileResponse(requested_path)
 
     @app.exception_handler(SystemException)
     async def system_exception_handler(request: Request, exc: SystemException):
