@@ -14,10 +14,6 @@ from app.utils.logs import Logs
 
 router = APIRouter()
 
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
 class JoinRequest(BaseModel):
     username: str
     password: str
@@ -32,6 +28,11 @@ async def user_join(
     user_id = await user_repo.create(username=join_request.username, password=join_request.password)
     return Res(data={"user_id": user_id})
 
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
 @router.post("/api/user/login", response_model=Res)
 async def user_login(login_request: LoginRequest):
     print(login_request)
@@ -44,13 +45,15 @@ async def user_login(login_request: LoginRequest):
 async def user_login(token_info = Depends(get_token_info)):
     return Res(data=token_info)
 
-@router.get("/api/user", response_model=Res)
+class UserRead(BaseModel):
+    id: int
+    username: str
+
+@router.get("/api/user", response_model=Res[list[UserRead]])
 @inject
 async def get_users(
     service: UserService = Depends(Provide[Container.user_service])
 ):
-
     user_list = await service.list_users()
-    await Logs.info('sss', 'sss')
-    await Logs.info('sss11', json.dumps(user_list))
+    await Logs.info('user_list', json.dumps(user_list))
     return Res(data=user_list)

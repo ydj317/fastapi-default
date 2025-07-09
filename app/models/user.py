@@ -1,10 +1,9 @@
 from pydantic import BaseModel
 
-class UserCreate(BaseModel):
-    name: str
-    email: str
+class UserJoin(BaseModel):
+    username: str
+    password: str
 
 class UserRead(BaseModel):
     id: int
-    name: str
-    email: str
+    username: str
