@@ -1,4 +1,4 @@
-from app.repositories.base_repo import BaseRepo
+from app.repos.base_repo import BaseRepo
 import sqlalchemy
 
 table = sqlalchemy.Table(

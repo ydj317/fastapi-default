@@ -1,5 +1,5 @@
 import sqlalchemy
-from app.repositories.base_repo import BaseRepo
+from app.repos.base_repo import BaseRepo
 
 table = sqlalchemy.Table(
     "t_user",

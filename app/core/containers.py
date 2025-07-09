@@ -1,8 +1,8 @@
 from dependency_injector import containers, providers
 from app.core.settings import settings
 from app.db.database import database
-from app.repositories.logs_repo import LogsRepo
-from app.repositories.user_repo import UserRepo
+from app.repos.logs_repo import LogsRepo
+from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.redis import get_redis
 

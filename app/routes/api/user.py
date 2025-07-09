@@ -2,7 +2,7 @@ import json
 
 from fastapi import APIRouter, Depends
 from dependency_injector.wiring import inject, Provide
-from app.repositories.user_repo import UserRepo
+from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.containers import Container
 from app.models.response import Res

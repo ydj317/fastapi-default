@@ -1,4 +1,4 @@
-from app.repositories.logs_repo import LogsRepo
+from app.repos.logs_repo import LogsRepo
 from app.core.context import get_trace_id
 
 class Logs:
