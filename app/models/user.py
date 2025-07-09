@@ -1,6 +1,11 @@
 from pydantic import BaseModel
 
-class UserJoin(BaseModel):
+class JoinRequest(BaseModel):
+    username: str
+    password: str
+
+
+class LoginRequest(BaseModel):
     username: str
     password: str
 
