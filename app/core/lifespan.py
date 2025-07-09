@@ -10,7 +10,6 @@ async def lifespan(app: FastAPI):
     container.wire(modules=["app.routes"])
     app.container = container
 
-    # Logs.init(logs_repo=container.logs_repo)
     logs_repo = await container.logs_repo()
     Logs.init(logs_repo=logs_repo)
 
