@@ -36,24 +36,9 @@ def get_task_result(task_id: str):
     else:
         return {"status": result.state}
 
-@router.get("/test/redis1")
+@router.get("/test/redis")
 @inject
-async def test_redis1(redis: Redis = Depends(Provide[Container.redis])):
+async def test_redis(redis: Redis = Depends(Provide[Container.redis])):
     await redis.set("key", "value111")
     val = await redis.get("key")
     return {"key": val}
-
-@router.get("/test/redis")
-async def test_redis():
-    client = redis.from_url(settings.redis_url, decode_responses=True)
-    await client.set("name", "Alice")
-    name = await client.get("name")
-    print(f"👤 name: {name}")
-
-    await client.rpush("my_list", "item1", "item2")
-    items = await client.lrange("my_list", 0, -1)
-    print(f"📦 my_list: {items}")
-
-    await client.delete("name", "my_list")  # 정리
-
-    return [{"id": 1, "name": "Alice"}]

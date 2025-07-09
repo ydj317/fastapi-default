@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from app.core.containers import Container
 from contextlib import asynccontextmanager
 from app.utils.logs import Logs
+from app.core.logging import logger
+
+logger.info('START')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

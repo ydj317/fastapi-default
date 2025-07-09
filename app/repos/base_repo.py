@@ -3,6 +3,7 @@ from databases import Database
 import sqlalchemy
 from datetime import datetime
 from sqlalchemy import and_, or_, func
+from app.core.logging import logger
 
 class BaseRepo(ABC):
     def __init__(self, db: Database):
@@ -24,10 +25,12 @@ class BaseRepo(ABC):
         if self._has_column("created_at") and "created_at" not in values:
             values["created_at"] = self._now()
         query = self.table.insert().values(**values)
+        logger.info(f"query: {query}")
         return await self.db.execute(query)
 
     async def get_all(self):
         query = self.table.select()
+        logger.info(f"query: {query}")
         rows = await self.db.fetch_all(query)
         return [dict(row) for row in rows]
 
