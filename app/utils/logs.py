@@ -11,7 +11,6 @@ class Logs:
 
     @classmethod
     async def write(cls, status: str = "INFO", message: str = "", data=None):
-        print(cls.logs_repo)
         await cls.logs_repo.create(status=status, message=message, data=data, trace_id=get_trace_id())
 
     @classmethod
