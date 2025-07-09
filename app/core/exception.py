@@ -12,7 +12,7 @@ def register_exception_handlers(app: FastAPI):
         return JSONResponse(
             status_code=500,
             content={
-                "success": False,
+                "code": 500,
                 "message": f"Server Error",
                 "data": {"detail": str(exc)},
             },
@@ -33,7 +33,7 @@ def register_exception_handlers(app: FastAPI):
         return JSONResponse(
             status_code=exc.status_code,
             content={
-                "success": False,
+                "code": exc.status_code,
                 "message": exc.detail,
                 "data": {},
             },
@@ -44,7 +44,7 @@ def register_exception_handlers(app: FastAPI):
         return JSONResponse(
             status_code=HTTP_422_UNPROCESSABLE_ENTITY,
             content={
-                "success": False,
+                "code": HTTP_422_UNPROCESSABLE_ENTITY,
                 "message": "Request validation error",
                 "data": {"errors": exc.errors()},
             },

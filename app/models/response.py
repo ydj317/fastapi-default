@@ -4,6 +4,6 @@ from pydantic import BaseModel
 T = TypeVar("T")
 
 class Res(BaseModel, Generic[T]):
-    success: bool = True
-    message: str = "성공"
+    code: int = 200
+    message: str = "Success"
     data: Optional[T] = None
