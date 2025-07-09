@@ -1,7 +1,8 @@
 from dependency_injector import containers, providers
 from app.core.settings import settings
 from app.db.database import database
-from app.repositories.user_repository import UserRepository
+from app.repositories.logs_repo import LogsRepo
+from app.repositories.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.redis import get_redis
 
@@ -26,5 +27,7 @@ class Container(containers.DeclarativeContainer):
 
     db = providers.Resource(get_database)
 
-    user_repository = providers.Factory(UserRepository, db=db)
-    user_service = providers.Factory(UserService, repo=user_repository)
+    logs_repo = providers.Singleton(LogsRepo, db=db)
+
+    user_repo = providers.Factory(UserRepo, db=db)
+    user_service = providers.Factory(UserService, user_repo=user_repo)
