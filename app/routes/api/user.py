@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from dependency_injector.wiring import inject, Provide
 from app.repositories.user_repo import UserRepo
 from app.services.user_service import UserService
-from app.containers import Container
+from app.core.containers import Container
 from app.models.response import Res
 from pydantic import BaseModel
 from app.auth.jwt import create_access_token

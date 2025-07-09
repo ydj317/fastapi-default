@@ -5,7 +5,7 @@ import redis.asyncio as redis
 from app.celery_worker import my_task
 from app.core.settings import settings
 from redis.asyncio import Redis
-from app.containers import Container
+from app.core.containers import Container
 from app.tasks.my_task import add
 from celery.result import AsyncResult
 

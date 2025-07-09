@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.containers import Container
+from app.core.containers import Container
 from contextlib import asynccontextmanager
 from app.utils.logs import Logs
 

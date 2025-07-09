@@ -1,9 +1,9 @@
 import asyncio
 import sys
 from dependency_injector.wiring import Provide, inject
-from app.containers import Container
+from app.core.containers import Container
 from app.services.user_service import UserService
-from app.db.database import database
+
 
 @inject
 async def list_users(service: UserService = Provide[Container.user_service]):
