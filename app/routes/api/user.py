@@ -7,8 +7,6 @@ from app.services.user_service import UserService
 from app.core.containers import Container
 from app.models.response import Res
 from pydantic import BaseModel
-from app.utils.jwt import create_token
-from datetime import timedelta
 from app.core.auth import get_token_info
 from app.utils.logs import Logs
 
@@ -22,11 +20,12 @@ class JoinRequest(BaseModel):
 @inject
 async def user_join(
         join_request: JoinRequest,
-        user_repo: UserRepo = Depends(Provide[Container.user_repo])
+        user_service: UserService = Depends(Provide[Container.user_service])
 ):
     print(join_request)
-    user_id = await user_repo.create(username=join_request.username, password=join_request.password)
-    return Res(data={"user_id": user_id})
+    result = await user_service.join_user(join_request.username, join_request.password)
+    print(result)
+    return Res()
 
 
 class LoginRequest(BaseModel):
@@ -34,11 +33,13 @@ class LoginRequest(BaseModel):
     password: str
 
 @router.post("/api/user/login", response_model=Res)
-async def user_login(login_request: LoginRequest):
-    print(login_request)
-    user = {"sub": login_request.username, **dict(login_request)}
-    token = create_token(user, timedelta(minutes=120))
-    return Res(data={"token": token})
+@inject
+async def user_login(
+        login_request: LoginRequest,
+        user_service: UserService = Depends(Provide[Container.user_service])
+):
+    result = await user_service.login_user(username=login_request.username, password=login_request.password)
+    return Res(data=result)
 
 
 @router.get("/api/user/info", response_model=Res)

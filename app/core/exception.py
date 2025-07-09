@@ -5,6 +5,9 @@ from fastapi.exceptions import RequestValidationError
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 import os
 
+from app.exceptions.SystemException import SystemException
+
+
 def register_exception_handlers(app: FastAPI):
 
     @app.exception_handler(Exception)
@@ -47,5 +50,16 @@ def register_exception_handlers(app: FastAPI):
                 "code": HTTP_422_UNPROCESSABLE_ENTITY,
                 "message": "Request validation error",
                 "data": {"errors": exc.errors()},
+            },
+        )
+
+    @app.exception_handler(SystemException)
+    async def system_exception_handler(request: Request, exc: SystemException):
+        return JSONResponse(
+            status_code=422,
+            content={
+                "code": exc.code,
+                "message": exc.message,
+                "data": {},
             },
         )
