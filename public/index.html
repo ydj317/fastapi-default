@@ -23,6 +23,17 @@
 <body>
 <h1>Hello FastApi</h1>
 <div><img src="logo.png"  alt=""/></div>
-<a href="/login.html">로그인</a>
+<a href="/login.html">로그인</a> | <a href="javascript:;" class="eLogout">로그아웃</a>
+<div>
+  <iframe src="http://127.0.0.1:8080/pages?page=1"></iframe>
+</div>
+
+<script>
+      document.querySelector('.eLogout').addEventListener('click', function () {
+        document.cookie = 'token=; Max-Age=0; path=/;';
+        alert('Logout!');
+        location.reload();
+      })
+</script>
 </body>
 </html>
