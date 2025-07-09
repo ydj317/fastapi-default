@@ -2,7 +2,7 @@ from app.exceptions.SystemException import SystemException
 from app.repos.user_repo import UserRepo
 from app.utils.hash import hash_password, verify_password
 from app.utils.jwt import create_token
-from datetime import timedelta
+from app.models.token import TokenInfo
 
 class UserService:
     def __init__(self, user_repo: UserRepo):
@@ -20,8 +20,8 @@ class UserService:
             raise SystemException('invalid username')
         if not verify_password(password, user['password']):
             raise SystemException('invalid password')
-        token_data = {"sub": user['username']}
-        token = create_token(token_data, timedelta(minutes=120))
+        token_info = TokenInfo(sub=user['username'])
+        token = create_token(token_info, 7200)
         return {"token": token}
 
     async def list_users(self):

@@ -2,12 +2,11 @@ import json
 
 from fastapi import APIRouter, Depends
 from dependency_injector.wiring import inject, Provide
-from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.containers import Container
 from app.models.response import Res
 from pydantic import BaseModel
-from app.core.auth import get_token_info
+from app.core.auth import get_token_info, TokenInfo
 from app.utils.logs import Logs
 
 router = APIRouter()
@@ -42,8 +41,8 @@ async def user_login(
     return Res(data=result)
 
 
-@router.get("/api/user/info", response_model=Res)
-async def user_login(token_info = Depends(get_token_info)):
+@router.get("/api/user/info", response_model=Res[TokenInfo])
+async def user_login(token_info: TokenInfo = Depends(get_token_info)):
     return Res(data=token_info)
 
 class UserRead(BaseModel):
