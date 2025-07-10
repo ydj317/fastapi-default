@@ -1,4 +1,7 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
+timezone = ZoneInfo('Europe/Zurich')
 
 class Datetime:
     @staticmethod
@@ -16,7 +19,8 @@ class Datetime:
         'Y-m-d H:i:s' 포맷의 문자열을 타임스탬프(int)로 변환
         """
         dt = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
-        return int(dt.timestamp())
+        dt_kst = dt.replace(tzinfo=timezone)
+        return int(dt_kst.timestamp())
 
     @staticmethod
     def now_timestamp() -> int:
