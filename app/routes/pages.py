@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.core.auth import get_token_by_cookie
-from app.models.token import TokenInfo
+from app.schemas.token import TokenInfo
 from app.utils.template import Template
 
 router = APIRouter()

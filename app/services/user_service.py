@@ -2,7 +2,7 @@ from app.exceptions.SystemException import SystemException
 from app.repos.user_repo import UserRepo
 from app.utils.hash import hash_password, verify_password
 from app.utils.jwt import create_token
-from app.models.token import TokenInfo
+from app.schemas.token import TokenInfo
 
 class UserService:
     def __init__(self, user_repo: UserRepo):

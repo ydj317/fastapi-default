@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 from app.exceptions.PageAuthException import PageAuthException
 from app.utils.jwt import decode_token
-from app.models.token import TokenInfo
+from app.schemas.token import TokenInfo
 
 """
 Authorization: Bearer <token>

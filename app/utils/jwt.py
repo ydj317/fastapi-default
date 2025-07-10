@@ -1,5 +1,5 @@
 from jose import jwt, JWTError
-from app.models.token import TokenInfo
+from app.schemas.token import TokenInfo
 from app.utils.datetime import Datetime
 
 SECRET_KEY = "your-secret-key"

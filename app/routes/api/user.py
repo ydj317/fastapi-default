@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends
 from dependency_injector.wiring import inject, Provide
 from app.services.user_service import UserService
 from app.core.containers import Container
-from app.models.response import Res
+from app.schemas.response import Res
 from app.core.auth import get_token_info, TokenInfo
 from app.utils.logs import Logs
-from app.models.user import UserRead, JoinRequest, LoginRequest
+from app.schemas.user import UserRead, JoinRequest, LoginRequest
 
 router = APIRouter()
 
