@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from dependency_injector.wiring import Provide, inject
-import redis.asyncio as redis
+from playwright.async_api import async_playwright
 
 from app.celery_worker import my_task
 from app.core.settings import settings
@@ -10,6 +10,16 @@ from app.tasks.my_task import add
 from celery.result import AsyncResult
 
 router = APIRouter()
+
+@router.get("/test/scrape")
+async def scrape(url: str):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
+        await page.goto(url)
+        content = await page.content()  # 페이지 전체 HTML 가져오기
+        await browser.close()
+        return {"html": content}
 
 @router.get("/test/exception")
 def rase_exception():
