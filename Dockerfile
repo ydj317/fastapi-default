@@ -8,16 +8,13 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -Ls https://astral.sh/uv/install.sh | bash
-ENV PATH="/root/.local/bin:$PATH"
-
-RUN /root/.local/bin/uv --version
 
 WORKDIR /app
 
-COPY . /app
+COPY entrypoint.sh /entrypoint.sh
 
-RUN uv sync
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8080
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+ENTRYPOINT ["/entrypoint.sh"]
