@@ -1,5 +1,5 @@
 from typing import List
-
+import aiofiles
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from dependency_injector.wiring import Provide, inject
 from playwright.async_api import async_playwright
@@ -78,9 +78,9 @@ async def upload_image(file: UploadFile = File(...)):
     file_path = UPLOAD_DIR / new_filename
 
     # 파일 저장
-    with open(file_path, "wb") as f:
+    async with aiofiles.open(file_path, "wb") as f:
         content = await file.read()
-        f.write(content)
+        await f.write(content)
 
     return JSONResponse({
         "filename": new_filename,
@@ -104,9 +104,12 @@ async def upload_images(files: List[UploadFile] = File(...)):
         file_path = UPLOAD_DIR / new_filename
 
         # 파일 저장
-        with open(file_path, "wb") as f:
-            content = await file.read()
-            f.write(content)
+        async with aiofiles.open(file_path, "wb") as f:
+            while True:
+                chunk = await file.read(1024 * 1024)
+                if not chunk:
+                    break
+                await f.write(chunk)
 
         saved_files.append({
             "original_filename": filename,
