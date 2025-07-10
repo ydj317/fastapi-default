@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+cd /app
+
 echo "📦 Running 'uv sync'..."
 /root/.local/bin/uv sync
 
