@@ -1,13 +1,18 @@
-from fastapi import APIRouter, Depends
+from typing import List
+
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from dependency_injector.wiring import Provide, inject
 from playwright.async_api import async_playwright
-
 from app.celery_worker import my_task
 from app.core.settings import settings
 from redis.asyncio import Redis
 from app.core.containers import Container
 from app.tasks.my_task import add
 from celery.result import AsyncResult
+from fastapi.responses import JSONResponse
+import os
+from uuid import uuid4
+from pathlib import Path
 
 router = APIRouter()
 
@@ -52,3 +57,61 @@ async def test_redis(redis: Redis = Depends(Provide[Container.redis])):
     await redis.set("key", "value111")
     val = await redis.get("key")
     return {"key": val}
+
+
+UPLOAD_DIR = Path("uploads/images")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "gif"}
+
+
+@router.post("/test/upload-image")
+async def upload_image(file: UploadFile = File(...)):
+
+    filename = file.filename
+    ext = filename.split(".")[-1].lower()
+
+    if ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(status_code=400, detail="Unsupported file type")
+
+    # 고유한 파일명 생성 (UUID 기반)
+    new_filename = f"{uuid4().hex}.{ext}"
+    file_path = UPLOAD_DIR / new_filename
+
+    # 파일 저장
+    with open(file_path, "wb") as f:
+        content = await file.read()
+        f.write(content)
+
+    return JSONResponse({
+        "filename": new_filename,
+        "url": f"/uploads/images/{new_filename}"
+    })
+
+@router.post("/test/upload-images")
+async def upload_images(files: List[UploadFile] = File(...)):
+    saved_files = []
+
+    for file in files:
+        filename = file.filename
+        ext = filename.split(".")[-1].lower()
+
+        # 확장자 검사
+        if ext not in ALLOWED_EXTENSIONS:
+            raise HTTPException(status_code=400, detail=f"Unsupported file type: {filename}")
+
+        # 고유한 파일 이름 생성
+        new_filename = f"{uuid4().hex}.{ext}"
+        file_path = UPLOAD_DIR / new_filename
+
+        # 파일 저장
+        with open(file_path, "wb") as f:
+            content = await file.read()
+            f.write(content)
+
+        saved_files.append({
+            "original_filename": filename,
+            "saved_filename": new_filename,
+            "url": f"/uploads/images/{new_filename}"
+        })
+
+    return JSONResponse(content={"uploaded": saved_files})
