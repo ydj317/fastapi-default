@@ -20,3 +20,5 @@ uploads
 
 # .env
 .env
+dist
+build
