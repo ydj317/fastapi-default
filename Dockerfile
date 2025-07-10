@@ -8,17 +8,16 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -Ls https://astral.sh/uv/install.sh | bash
-ENV PATH="/root/.cargo/bin:$PATH"
+ENV PATH="/root/.local/bin:$PATH"
 
-#RUN /root/.cargo/bin/uv --version
-#
-#WORKDIR /app
-#
-#COPY . /app
-#
-#RUN uv sync
-#
-#EXPOSE 8080
-#
-#CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
-CMD ["python"]
+RUN /root/.local/bin/uv --version
+
+WORKDIR /app
+
+COPY . /app
+
+RUN uv sync
+
+EXPOSE 8080
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
