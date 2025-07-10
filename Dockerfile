@@ -11,6 +11,10 @@ RUN curl -Ls https://astral.sh/uv/install.sh | bash
 
 WORKDIR /app
 
+COPY . /app
+
+RUN /root/.local/bin/uv sync
+
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
