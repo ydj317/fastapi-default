@@ -1,4 +1,17 @@
+version: '3.9'
+
 services:
+#  db:
+#    image: mariadb:10.3.39
+#    container_name: mariadb
+#    environment:
+#      MYSQL_ROOT_PASSWORD: myrootpass
+#      MYSQL_DATABASE: devdb
+#      MYSQL_USER: devuser
+#      MYSQL_PASSWORD: devpass
+#    volumes:
+#      - db-data:/var/lib/mysql
+
   web:
     build:
       context: .
@@ -7,3 +20,8 @@ services:
     volumes:
       - ./uploads:/app/uploads
     container_name: web
+    depends_on:
+      - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
