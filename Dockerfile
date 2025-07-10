@@ -10,9 +10,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -Ls https://astral.sh/uv/install.sh | bash
 ENV PATH="/root/.cargo/bin:$PATH"
 
-RUN which uv
-
-RUN /root/.cargo/bin/uv --version
+RUN /usr/local/bin/uv --version
 
 WORKDIR /app
 
