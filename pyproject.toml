@@ -14,6 +14,7 @@ dependencies = [
     "databases>=0.9.0",
     "dependency-injector>=4.48.1",
     "fastapi[all]>=0.115.14",
+    "faststream[rabbit]>=0.5.48",
     "jinja2>=3.1.6",
     "passlib[bcrypt]>=1.7.4",
     "playwright>=1.53.0",
@@ -21,4 +22,6 @@ dependencies = [
     "python-jose[cryptography]>=3.5.0",
     "redis>=6.2.0",
     "sqlalchemy>=2.0.41",
+    "taskiq>=0.11.18",
+    "taskiq-aio-pika>=0.4.3",
 ]

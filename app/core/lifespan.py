@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.core.containers import Container
 from contextlib import asynccontextmanager
 from app.utils.logs import Logs
+from app.core.stream import stream_app
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,5 +14,9 @@ async def lifespan(app: FastAPI):
     logs_repo = await container.logs_repo()
     Logs.init(logs_repo=logs_repo)
 
+    await stream_app.start()
+
     yield
+
     await container.shutdown_resources()
+    await stream_app.stop()

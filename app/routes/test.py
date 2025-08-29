@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 import os
 from uuid import uuid4
 from pathlib import Path
+from app.core.stream import broker, events_queue
 
 router = APIRouter()
 
@@ -118,3 +119,9 @@ async def upload_images(files: List[UploadFile] = File(...)):
         })
 
     return JSONResponse(content={"uploaded": saved_files})
+
+@router.post("/test/publish")
+async def publish_message(data: dict):
+    #await broker.declare_queue(events_queue)
+    await broker.publish(data, queue=events_queue)
+    return JSONResponse(content={"published": True})
