@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FastAPI Jinja2</title>
+  <meta charset="UTF-8">
+  <title>Hello FastApi</title>
+  <script>
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = getCookie('token');
+      const tokenDisplay = document.createElement('div');
+      tokenDisplay.innerHTML = token 
+        ? `<p>Your Token: <code>${token}</code></p>` 
+        : '<p>No token found in cookies</p>';
+      document.body.appendChild(tokenDisplay);
+    });
+  </script>
 </head>
 <body>
-    <h1>Hello, {{ name }}!</h1>
-    <p>page: {{ query.page }}</p>
-    <script src="/static/js/common.js"></script>
+<h1>Hello FastApi</h1>
+<div><img src="/logo.png" alt=""/></div>
+<a href="/user/login">로그인</a> | <a href="/user/logout">로그아웃</a> | <a href="/user/info">회원정보</a>
+
+<script src="/static/js/common.js"></script>
 </body>
 </html>

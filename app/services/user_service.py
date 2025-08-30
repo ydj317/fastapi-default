@@ -3,10 +3,17 @@ from app.repos.user_repo import UserRepo
 from app.utils.hash import hash_password, verify_password
 from app.utils.jwt import create_token
 from app.schemas.token import TokenInfo
+from app.core.context import get_username
 
 class UserService:
     def __init__(self, user_repo: UserRepo):
         self.user_repo = user_repo
+
+    async def current_user(self):
+        user = await self.user_repo.get_by_username(get_username())
+        if user is None:
+            return {}
+        return user
 
     async def join_user(self, username: str, password: str):
         user = await self.user_repo.get_by_username(username)

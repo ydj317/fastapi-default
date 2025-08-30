@@ -10,7 +10,11 @@ from app.schemas.user import UserRead, JoinRequest, LoginRequest
 
 router = APIRouter()
 
-@router.post("/api/user/join", response_model=Res)
+@router.post(
+    "/api/user/join", 
+    response_model=Res,
+    summary="회원가입"
+)
 @inject
 async def user_join(
         join_request: JoinRequest,

@@ -28,3 +28,12 @@ async def get_token_by_cookie(request: Request):
         traceback.print_exc()
         raise PageAuthException('authentication failed')
 
+async def get_token_by_cookie_no_except(request: Request):
+    try:
+        token = request.cookies.get("token")
+        payload = decode_token(token)
+        if not payload or "sub" not in payload:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        return TokenInfo(**payload)
+    except Exception as e:
+        return TokenInfo()

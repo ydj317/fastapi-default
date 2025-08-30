@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>회원정보</title>
+</head>
+<body>
+    {% if is_login %}
+    <p>username: {{ username }}</p>
+    <p>user: {{ user }}</p>
+    {% else %}
+    <p>로그인 필요함.</p>
+    {% endif %}
+
+    <script src="/static/js/common.js"></script>
+</body>
+</html>
