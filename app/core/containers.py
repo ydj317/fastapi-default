@@ -5,6 +5,7 @@ from app.repos.logs_repo import LogsRepo
 from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.redis import get_redis
+from app.utils.logs import Logs
 
 async def get_database():
     await database.connect()
@@ -15,7 +16,16 @@ async def get_database():
         await database.disconnect()
         print("🔌 Database disconnected")
 
+async def init_logs(logs_repo: LogsRepo):
+    Logs.init(logs_repo=logs_repo)
+    print("✅ Logs initialized")
+    try:
+        yield
+    finally:
+        pass
+
 class Container(containers.DeclarativeContainer):
+
     wiring_config = containers.WiringConfiguration(packages=["app.routes"])
 
     config = providers.Configuration()
@@ -31,3 +41,6 @@ class Container(containers.DeclarativeContainer):
 
     user_repo = providers.Factory(UserRepo, db=db)
     user_service = providers.Factory(UserService, user_repo=user_repo)
+
+    # init_resources() 호출 시 자동 실행되는 Resource
+    logs_init = providers.Resource(init_logs, logs_repo=logs_repo)

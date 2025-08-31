@@ -3,6 +3,7 @@ from app.utils.template import Template
 from dependency_injector.wiring import inject, Provide
 from app.services.user_service import UserService
 from app.core.containers import Container
+from app.utils.logs import Logs
 
 router = APIRouter()
 
@@ -32,6 +33,7 @@ async def pages(
         user_service: UserService = Depends(Provide[Container.user_service])
 ):
     print(await user_service.current_user())
+    await Logs.info(message="dfdsfdsfsdf", data="fdsfsd")
     return template.response(
         'user/info.html',
         {
