@@ -9,18 +9,18 @@ router = APIRouter()
 
 
 @router.get("/")
-def main_page(template: Template = Depends()):
-    return template.response('index.html')
+async def main_page(template: Template = Depends()):
+    return await template.response('index.html')
 
 
 @router.get("/user/login")
-def login_page(template: Template = Depends()):
-    return template.response('user/login.html')
+async def login_page(template: Template = Depends()):
+    return await template.response('user/login.html')
 
 
 @router.get("/user/logout")
-def login_page(request: Request, template: Template = Depends()):
-    response = template.response('user/logout.html')
+async def login_page(request: Request, template: Template = Depends()):
+    response = await template.response('user/logout.html')
     for cookie_name in request.cookies.keys():
         response.delete_cookie(cookie_name)
     return response
@@ -34,9 +34,10 @@ async def pages(
 ):
     print(await user_service.current_user())
     await Logs.info(message="dfdsfdsfsdf", data="fdsfsd")
-    return template.response(
+    return await template.response(
         'user/info.html',
         {
-            'user': await user_service.current_user()
+            'user': await user_service.current_user(),
+            'user_service': user_service,
         }
     )

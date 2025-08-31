@@ -470,6 +470,7 @@ dependencies = [
     { name = "fastapi", extra = ["all"] },
     { name = "faststream", extra = ["rabbit"] },
     { name = "jinja2" },
+    { name = "jinja2-async-environment" },
     { name = "passlib", extra = ["bcrypt"] },
     { name = "playwright" },
     { name = "pydantic-settings" },
@@ -493,6 +494,7 @@ requires-dist = [
     { name = "fastapi", extras = ["all"], specifier = ">=0.115.14" },
     { name = "faststream", extras = ["rabbit"], specifier = ">=0.5.48" },
     { name = "jinja2", specifier = ">=3.1.6" },
+    { name = "jinja2-async-environment", specifier = ">=0.14.5" },
     { name = "passlib", extras = ["bcrypt"], specifier = ">=1.7.4" },
     { name = "playwright", specifier = ">=1.53.0" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
@@ -663,6 +665,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/df/bf/f7da0350254c0ed7c72f3e33cef02e048281fec7ecec5f032d4aac52226b/jinja2-3.1.6.tar.gz", hash = "sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d", size = 245115, upload-time = "2025-03-05T20:05:02.478Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl", hash = "sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67", size = 134899, upload-time = "2025-03-05T20:05:00.369Z" },
+]
+
+[[package]]
+name = "jinja2-async-environment"
+version = "0.14.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "jinja2" },
+    { name = "redis" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fa/4d/89731cb68f1f49ab0c4c27ec9c2b5876fe7a464670d0d1b14ae27f7da8b6/jinja2_async_environment-0.14.5.tar.gz", hash = "sha256:ed8629b843dc2100252604f64d792ac9ef3453e56b579cc50de21febdb409392", size = 97459, upload-time = "2025-07-16T06:34:13.232Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f8/89/9d7a0ad3a66c6c6a66fb556858078f97a7d62583975cba40a0e6a89735c4/jinja2_async_environment-0.14.5-py3-none-any.whl", hash = "sha256:117ed3f9bbf6568d455d511ef3ea21f5ab6c0055be417fe8ea40fb72aa5c38d6", size = 17855, upload-time = "2025-07-16T06:34:12.006Z" },
 ]
 
 [[package]]
