@@ -20,6 +20,10 @@ class Template:
             enable_async=True
         )
 
+        # container = self.request.app.container
+        # user_service = await container.user_service()
+        # print(await user_service.current_user())
+
         query = self.request.query_params
         context = {
             "request": self.request,
