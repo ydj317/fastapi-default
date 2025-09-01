@@ -10,6 +10,18 @@ class Template:
     def __init__(self, request: Request):
         self.request = request
 
+    async def bind_globals(self, env: AsyncEnvironment):
+        container = self.request.app.container
+        services = {
+            "user": container.user_service,
+        }
+
+        async def service(service_name: str):
+            return await services[service_name]()
+
+        env.globals["service"] = service
+
+
     async def response(self, template_name: str, template_data = None):
         if template_data is None:
             template_data = {}
@@ -20,9 +32,7 @@ class Template:
             enable_async=True
         )
 
-        # container = self.request.app.container
-        # user_service = await container.user_service()
-        # print(await user_service.current_user())
+        await self.bind_globals(env)
 
         query = self.request.query_params
         context = {

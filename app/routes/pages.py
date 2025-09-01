@@ -12,6 +12,9 @@ router = APIRouter()
 async def main_page(template: Template = Depends()):
     return await template.response('index.html')
 
+@router.get("/user/join")
+async def join_page(template: Template = Depends()):
+    return await template.response('user/join.html')
 
 @router.get("/user/login")
 async def login_page(template: Template = Depends()):
@@ -27,17 +30,9 @@ async def login_page(request: Request, template: Template = Depends()):
 
 
 @router.get("/user/info")
-@inject
-async def pages(
-        template: Template = Depends(),
-        user_service: UserService = Depends(Provide[Container.user_service])
-):
-    print(await user_service.current_user())
-    await Logs.info(message="dfdsfdsfsdf", data="fdsfsd")
+async def pages(template: Template = Depends()):
+    await Logs.info(message="로그 테스트 ", data="여기는 로그 내용~~")
     return await template.response(
         'user/info.html',
-        {
-            'user': await user_service.current_user(),
-            'user_service': user_service,
-        }
+        {}
     )

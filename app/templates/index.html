@@ -23,7 +23,12 @@
 <body>
 <h1>Hello FastApi</h1>
 <div><img src="/logo.png" alt=""/></div>
-<a href="/user/login">로그인</a> | <a href="/user/logout">로그아웃</a> | <a href="/user/info">회원정보</a>
+
+{% if is_login %}
+<a href="/user/logout">로그아웃</a> | <a href="/user/info">회원정보</a>
+{% else %}
+<a href="/user/login">로그인</a> | <a href="/user/join">회원가입</a>
+{% endif %}
 
 <script src="/static/js/common.js"></script>
 </body>
