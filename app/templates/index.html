@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Hello FastApi</title>
+{% extends "layout/default.html" %}
+
+{% block title %}Fastapi Default{% endblock %}
+
+{% block head %}
   <script>
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
-    
+
     document.addEventListener('DOMContentLoaded', () => {
       const token = getCookie('token');
       const tokenDisplay = document.createElement('div');
-      tokenDisplay.innerHTML = token 
-        ? `<p>Your Token: <code>${token}</code></p>` 
+      tokenDisplay.innerHTML = token
+        ? `<p>Your Token: <code>${token}</code></p>`
         : '<p>No token found in cookies</p>';
       document.body.appendChild(tokenDisplay);
     });
   </script>
-</head>
-<body>
-{% include "layout/_header.html" %}
+{% endblock %}
+
+{% block body %}
 <h1>Hello FastApi</h1>
 <div><img src="/logo.png" alt=""/></div>
 
@@ -32,7 +32,4 @@
 {% endif %}
 
 <script src="/static/js/common.js"></script>
-
-{% include "layout/_footer.html" %}
-</body>
-</html>
+{% endblock %}

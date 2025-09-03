@@ -6,7 +6,7 @@
 <body>
     {% if is_login %}
     <p>username: {{ username }}</p>
-    <p>user: {{ service("user").current_user() }}</p>
+    <p>user: {{ container("user_service").current_user() }}</p>
     {% else %}
     <p>로그인 필요함.</p>
     {% endif %}
