@@ -1,11 +1,10 @@
-from fastapi import Request, Depends
-from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from app.core.context import get_is_login, get_username
 from fastapi.responses import HTMLResponse
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 env = Environment(
-    loader=FileSystemLoader("app/templates"),
+    loader=FileSystemLoader("template"),
     autoescape=select_autoescape(["html", "xml"]),
     enable_async=True
 )

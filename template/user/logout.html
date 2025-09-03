@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <title>로그아웃</title>
   <meta http-equiv="refresh" content="1;url=/" />
+  <script>
+    document.cookie.split(";").forEach(cookie => {
+      const name = cookie.split("=")[0].trim();
+      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+    });
+  </script>
   <style>
     body {
       display: flex;
