@@ -4,6 +4,7 @@ from dependency_injector.wiring import Provide, inject
 from app.core.containers import Container
 from app.services.user_service import UserService
 
+# python -m app.command list
 
 @inject
 async def list_users(service: UserService = Provide[Container.user_service]):
