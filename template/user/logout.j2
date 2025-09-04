@@ -1,31 +1,32 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>로그아웃</title>
-  <meta http-equiv="refresh" content="1;url=/" />
-  <script>
-    document.cookie.split(";").forEach(cookie => {
-      const name = cookie.split("=")[0].trim();
-      document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-    });
-  </script>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: sans-serif;
-      background: #f9f9f9;
-    }
-    .message {
-      font-size: 1.5rem;
-      color: #333;
-    }
-  </style>
-</head>
-<body>
-  <div class="message">로그아웃 되었습니다. 1초 후 메인화면으로 이동합니다.</div>
-</body>
-</html>
+{% extends "layout/default.j2" %}
+
+{% block title %}로그아웃{% endblock %}
+
+{% block head %}
+    <meta http-equiv="refresh" content="1;url=/"/>
+    <script>
+        document.cookie.split(";").forEach(cookie => {
+            const name = cookie.split("=")[0].trim();
+            document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        });
+    </script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+            background: #f9f9f9;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="message">로그아웃 되었습니다. 1초 후 메인화면으로 이동합니다.</div>
+{% endblock %}

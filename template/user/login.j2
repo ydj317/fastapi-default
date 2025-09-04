@@ -1,48 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <script>
-        async function handleLogin(event) {
-            event.preventDefault();
-            
-            const formData = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
-            
-            try {
-                const response = await fetch('/api/user/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if (result.code === 200) {
-                    // Set cookie with 2 hour expiration
-                    const date = new Date();
-                    date.setTime(date.getTime() + (2 * 60 * 60 * 1000));
-                    document.cookie = `token=${result.data.token}; expires=${date.toUTCString()}; path=/`;
-                    
-                    // Redirect
-                    window.location.href = '/';
-                } else {
-                    alert('Login failed: ' + (result.message || 'Unknown error'));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Login failed: ' + error.message);
-            }
-        }
-    </script>
-</head>
-<body>
+{% extends "layout/default.j2" %}
+
+{% block title %}로그인{% endblock %}
+
+{% block content %}
     <h1>Login</h1>
     <form onsubmit="handleLogin(event)">
         <div>
@@ -55,5 +15,44 @@
         </div>
         <button type="submit">Login</button>
     </form>
-</body>
-</html>
+{% endblock %}
+
+{% block foot %}
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const formData = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.code === 200) {
+                    // Set cookie with 2 hour expiration
+                    const date = new Date();
+                    date.setTime(date.getTime() + (2 * 60 * 60 * 1000));
+                    document.cookie = `token=${result.data.token}; expires=${date.toUTCString()}; path=/`;
+
+                    // Redirect
+                    window.location.href = '/';
+                } else {
+                    alert('Login failed: ' + (result.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Login failed: ' + error.message);
+            }
+        }
+    </script>
+{% endblock %}

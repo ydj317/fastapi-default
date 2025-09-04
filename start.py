@@ -1,7 +1,7 @@
 import os
 import uvicorn
 
-# uvicorn app.main:app --port=8081
+# uvicorn app.main:app --port=8080
 if __name__ == "__main__":
     # 실행 전 uploads 폴더 생성
     os.makedirs("uploads", exist_ok=True)

@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <title>회원정보</title>
-</head>
-<body>
-    {% if is_login %}
-    <h1>User INFO</h1>
-    <p>username: {{ username }}</p>
-    <p>user: {{ container("user_service").current_user() }}</p>
-    {% else %}
-    <p>로그인 필요함.</p>
-    {% endif %}
+{% extends "layout/default.j2" %}
 
-    <script src="/static/js/common.js"></script>
-</body>
-</html>
+{% block title %}회원정보{% endblock %}
+
+{% block content %}
+    {% if is_login %}
+        <h1>User INFO</h1>
+        <p>username: {{ username }}</p>
+        <p>user: {{ container("user_service").current_user() }}</p>
+    {% else %}
+        <p>로그인 필요함.</p>
+    {% endif %}
+{% endblock %}
