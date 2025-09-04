@@ -5,6 +5,7 @@
 </head>
 <body>
     {% if is_login %}
+    <h1>User INFO</h1>
     <p>username: {{ username }}</p>
     <p>user: {{ container("user_service").current_user() }}</p>
     {% else %}
