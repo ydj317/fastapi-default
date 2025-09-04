@@ -4,6 +4,8 @@ from app.routes import router
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.utils.template import Template
+from pathlib import Path
+from app.utils.error import error404
 import os
 
 def register_routers(app: FastAPI):
@@ -11,19 +13,12 @@ def register_routers(app: FastAPI):
     app.mount("/static", StaticFiles(directory="template/static"), name="static")
     app.mount("/uploads", StaticFiles(directory="uploads"), name="static")
 
-    @app.get("/")
-    async def main_page(template: Template = Depends()):
-        return await template.response('index.html')
-
     @app.exception_handler(StarletteHTTPException)
     async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
         if exc.status_code == 404:
-            requested_public_path = os.path.join("public", request.url.path.lstrip("/"))
-            if os.path.isfile(requested_public_path):
-                return FileResponse(requested_public_path)
-            requested_template_path = os.path.join("template", request.url.path.lstrip("/"))
-            if os.path.isfile(requested_template_path):
-                return await Template(request).response(request.url.path.lstrip("/"))
+            response = await handle_404(request)
+            if response:
+                return response
 
         return JSONResponse(
             status_code=exc.status_code,
@@ -33,3 +28,20 @@ def register_routers(app: FastAPI):
                 "data": {},
             },
         )
+
+async def handle_404(request: Request):
+    url_path = request.url.path.lstrip("/")
+    accept_header = request.headers.get("accept", "").lower()
+
+    public_path = Path("public") / url_path
+    template_path = Path("template") / url_path
+
+    if public_path.is_file():
+        return FileResponse(public_path)
+
+    if "text/html" in accept_header:
+        if template_path.is_file():
+            return await Template(request).response(url_path)
+        return await error404(request)
+
+    return None
