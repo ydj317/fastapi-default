@@ -39,8 +39,10 @@ class Container(containers.DeclarativeContainer):
 
     logs_repo = providers.Singleton(LogsRepo, db=db)
 
+    # init_resources() 호출 시 자동 실행되는 Resource
+    logs_init = providers.Resource(init_logs, logs_repo=logs_repo)
+
     user_repo = providers.Factory(UserRepo, db=db)
     user_service = providers.Factory(UserService, user_repo=user_repo)
 
-    # init_resources() 호출 시 자동 실행되는 Resource
-    logs_init = providers.Resource(init_logs, logs_repo=logs_repo)
+
