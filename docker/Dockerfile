@@ -13,7 +13,7 @@ RUN ln -s /root/.local/bin/uv /usr/local/bin/uv
 
 WORKDIR /app
 
-COPY . /app
+COPY .. /app
 
 RUN uv sync
 
