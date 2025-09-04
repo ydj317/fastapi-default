@@ -40,7 +40,7 @@ async def handle_404(request: Request):
         return FileResponse(public_path)
 
     if "text/html" in accept_header:
-        if template_path.is_file():
+        if template_path.is_file() and template_path.suffix.lower() in [".html", ".htm", ".xml"]:
             return await Template(request).response(url_path)
         return await error404(request)
 
