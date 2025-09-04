@@ -34,14 +34,13 @@ async def handle_404(request: Request):
     accept_header = request.headers.get("accept", "").lower()
 
     public_path = Path("public") / url_path
-    template_path = Path("template") / url_path
-
     if public_path.is_file():
         return FileResponse(public_path)
 
+    template_path = Path("template") / f"{url_path}.j2"
     if "text/html" in accept_header:
-        if template_path.is_file() and template_path.suffix.lower() in [".html"]:
-            return await Template(request).response(url_path)
+        if template_path.is_file():
+            return await Template(request).response(f"{url_path}.j2")
         return await error404(request)
 
     return None
