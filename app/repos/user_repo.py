@@ -6,9 +6,13 @@ table = sqlalchemy.Table(
     "t_user",
     sqlalchemy.MetaData(),
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("username", sqlalchemy.String(50)),
+    sqlalchemy.Column("username", sqlalchemy.String(200), index=True),
     sqlalchemy.Column("password", sqlalchemy.String(200)),
+    sqlalchemy.Column("nickname", sqlalchemy.String(50)),
+    mysql_engine="InnoDB",
+    mysql_charset="utf8mb4",
 )
+
 
 class UserRepo(BaseRepo):
     @property

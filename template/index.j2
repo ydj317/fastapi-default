@@ -1,12 +1,14 @@
 {% extends "layout/default.j2" %}
 
+{% set current_user = container("user_service").current_user() %}
+
 {% block title %}메인{% endblock %}
 
 {% block content %}
     <h1>Hello FastApi</h1>
     <div><img src="/static/images/logo.png" alt=""/></div>
     {% if is_login %}
-        <a href="/user/logout">로그아웃({{ username }})</a> | <a href="/user/info">회원정보</a>
+        <a href="/user/logout">로그아웃({{ current_user.nickname }})</a> | <a href="/user/info">회원정보</a>
     {% else %}
         <a href="/user/login">로그인</a> | <a href="/user/join">회원가입</a>
     {% endif %}

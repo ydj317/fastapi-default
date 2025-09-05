@@ -1,5 +1,5 @@
 from app.core.containers import Container
-from app.consumer.stream import stream_app
+from app.consumers.stream import stream_app
 from app.core.settings import settings
 
 """

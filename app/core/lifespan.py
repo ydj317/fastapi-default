@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.core.containers import Container
 from contextlib import asynccontextmanager
 from app.core.settings import settings
-from app.consumer.stream import stream_app
+from app.consumers.stream import stream_app
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,10 +15,10 @@ async def lifespan(app: FastAPI):
 
     app.container = container
 
-    await stream_app.start()
+    # await stream_app.start()
 
     yield
 
     await container.shutdown_resources()
 
-    await stream_app.stop()
+    # await stream_app.stop()

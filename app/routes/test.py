@@ -9,7 +9,7 @@ from app.core.containers import Container
 from fastapi.responses import JSONResponse
 from uuid import uuid4
 from pathlib import Path
-from app.consumer.stream import publish_test_queue
+from app.consumers.stream import publish_test_queue
 from app.utils import datetime
 from app.utils.datetime import Datetime
 

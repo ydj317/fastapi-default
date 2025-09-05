@@ -10,6 +10,10 @@
             <input type="text" id="username" name="username" required>
         </div>
         <div>
+            <label for="username">Nickname:</label>
+            <input type="text" id="nickname" name="nickname" required>
+        </div>
+        <div>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
@@ -24,7 +28,8 @@
 
             const formData = {
                 username: document.getElementById('username').value,
-                password: document.getElementById('password').value
+                password: document.getElementById('password').value,
+                nickname: document.getElementById('nickname').value
             };
 
             try {

@@ -15,11 +15,15 @@ class UserService:
             return {}
         return user
 
-    async def join_user(self, username: str, password: str):
+    async def join_user(self, username: str, password: str, nickname: str):
         user = await self.user_repo.get_by_username(username)
         if user is not None:
             raise SystemException('duplicate username')
-        return await self.user_repo.create(username=username, password=hash_password(password))
+        return await self.user_repo.create(
+            username=username,
+            password=hash_password(password),
+            nickname=nickname,
+        )
 
     async def login_user(self, username: str, password: str):
         user = await self.user_repo.get_by_username(username)

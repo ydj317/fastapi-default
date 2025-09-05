@@ -1,5 +1,19 @@
 from app.repos.logs_repo import LogsRepo
-from app.core.context import get_trace_id
+from app.core.context import get_trace_id, get_username
+import json
+
+def to_json(data) -> str:
+    try:
+        if isinstance(data, str):
+            data = {"text": data}
+
+        return json.dumps(
+            data,
+            ensure_ascii=False,               # 한글 깨짐 방지
+            default=lambda o: o.__dict__      # 일반 객체 → dict 변환
+        )
+    except TypeError as e:
+        return ""
 
 class Logs:
 
@@ -11,7 +25,14 @@ class Logs:
 
     @classmethod
     async def write(cls, status: str = "INFO", message: str = "", data=None):
-        await cls.logs_repo.create(status=status, message=message, data=data, trace_id=get_trace_id())
+        data = to_json(data)
+        await cls.logs_repo.create(
+            status=status,
+            message=message,
+            data=data,
+            username=get_username(),
+            trace_id=get_trace_id()
+        )
 
     @classmethod
     async def debug(cls, message: str, data: any):

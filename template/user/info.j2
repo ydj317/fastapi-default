@@ -1,12 +1,14 @@
 {% extends "layout/default.j2" %}
 
+{% set current_user = container("user_service").current_user() %}
+
 {% block title %}회원정보{% endblock %}
 
 {% block content %}
     {% if is_login %}
         <h1>User INFO</h1>
         <p>username: {{ username }}</p>
-        <p>user: {{ container("user_service").current_user() }}</p>
+        <p>user: {{ current_user }}</p>
     {% else %}
         <p>로그인 필요함.</p>
     {% endif %}
