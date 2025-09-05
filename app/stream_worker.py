@@ -1,11 +1,22 @@
+from app.core.containers import Container
 from app.core.stream import stream_app, broker, events_queue
 from faststream.exceptions import NackMessage, RejectMessage
 from app.core.settings import settings
 
-print(settings.dict())
-
 # 실행 방법
 # faststream run app.stream_worker:stream_app
+
+container = Container()
+container.config.from_dict(settings.dict())
+
+async def on_startup():
+    await container.init_resources()
+
+async def on_shutdown():
+    await container.shutdown_resources()
+
+stream_app.on_startup(on_startup)
+stream_app.on_shutdown(on_shutdown)
 
 @broker.subscriber(events_queue)
 async def consume_event(msg: dict):
