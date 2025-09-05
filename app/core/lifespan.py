@@ -1,12 +1,14 @@
 from fastapi import FastAPI
 from app.core.containers import Container
 from contextlib import asynccontextmanager
-from app.utils.logs import Logs
+from app.core.settings import settings
 from app.core.stream import stream_app
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     container = Container()
+    container.config.from_dict(settings.dict())
+
     await container.init_resources()
 
     container.wire(modules=["app.routes"])

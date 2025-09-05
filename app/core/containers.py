@@ -1,20 +1,12 @@
 from dependency_injector import containers, providers
-from app.core.settings import settings
-from app.core.database import database
+from app.core.database import get_database
 from app.repos.logs_repo import LogsRepo
 from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.redis import get_redis
 from app.utils.logs import Logs
 
-async def get_database():
-    await database.connect()
-    print("✅ Database connected")
-    try:
-        yield database
-    finally:
-        await database.disconnect()
-        print("🔌 Database disconnected")
+
 
 async def init_logs(logs_repo: LogsRepo):
     Logs.init(logs_repo=logs_repo)
@@ -29,13 +21,18 @@ class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(packages=["app.routes"])
 
     config = providers.Configuration()
-    config.database_url.from_value(settings.database_url)
-    config.redis_url.from_value(settings.redis_url)
-    config.rabbitmq_url.from_value(settings.rabbitmq_url)
 
-    redis = providers.Resource(get_redis, url=config.redis_url)
+    redis = providers.Resource(
+        get_redis,
+        url=config.redis_url
+    )
 
-    db = providers.Resource(get_database)
+    db = providers.Resource(
+        get_database,
+        database_url=config.database_url,
+        min_size=config.database_pool_min_size,
+        max_size=config.database_pool_max_size,
+    )
 
     logs_repo = providers.Singleton(LogsRepo, db=db)
 

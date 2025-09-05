@@ -1,5 +1,8 @@
 from app.core.stream import stream_app, broker, events_queue
 from faststream.exceptions import NackMessage, RejectMessage
+from app.core.settings import settings
+
+print(settings.dict())
 
 # 실행 방법
 # faststream run app.stream_worker:stream_app

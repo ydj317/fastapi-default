@@ -102,3 +102,7 @@ async def publish_message(data: dict):
     #await broker.declare_queue(events_queue)
     await broker.publish(data, queue=events_queue)
     return JSONResponse(content={"published": True})
+
+@router.get("/test/settings")
+async def publish_message():
+    return JSONResponse(content={"settings": settings.dict()})
