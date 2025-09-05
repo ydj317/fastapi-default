@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.core.containers import Container
 from contextlib import asynccontextmanager
 from app.core.settings import settings
-from app.core.stream import stream_app
+from app.consumer.stream import stream_app
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

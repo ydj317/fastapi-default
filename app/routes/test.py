@@ -6,12 +6,12 @@ from playwright.async_api import async_playwright
 from app.core.settings import settings
 from redis.asyncio import Redis
 from app.core.containers import Container
-from celery.result import AsyncResult
 from fastapi.responses import JSONResponse
-import os
 from uuid import uuid4
 from pathlib import Path
-from app.core.stream import broker, events_queue
+from app.consumer.stream import publish_test_queue
+from app.utils import datetime
+from app.utils.datetime import Datetime
 
 router = APIRouter()
 
@@ -100,8 +100,11 @@ async def upload_images(files: List[UploadFile] = File(...)):
 @router.post("/test/publish")
 async def publish_message(data: dict):
     #await broker.declare_queue(events_queue)
-    await broker.publish(data, queue=events_queue)
-    return JSONResponse(content={"published": True})
+    now = Datetime.now_timestamp()
+
+    data.update({"timestamp": now})
+    await publish_test_queue(data)
+    return JSONResponse(content={"published": True, "data": data})
 
 @router.get("/test/settings")
 async def publish_message():

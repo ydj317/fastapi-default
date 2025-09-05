@@ -1,0 +1,1 @@
+import app.consumer.test_worker
