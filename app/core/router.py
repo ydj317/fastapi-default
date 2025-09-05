@@ -10,7 +10,7 @@ import os
 
 def register_routers(app: FastAPI):
     app.include_router(router)
-    app.mount("/static", StaticFiles(directory="template/static"), name="static")
+    app.mount("/static", StaticFiles(directory="static"), name="static")
     app.mount("/uploads", StaticFiles(directory="uploads"), name="static")
 
     @app.exception_handler(StarletteHTTPException)
