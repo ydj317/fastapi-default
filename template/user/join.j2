@@ -94,6 +94,73 @@
             <input type="text" id="referrer_username" name="referrer_username" maxlength="50">
         </div>
 
+        <!-- 업체명 -->
+        <div>
+            <label for="company_name">업체명:</label>
+            <input type="text" id="company_name" name="company_name" maxlength="100">
+        </div>
+
+        <!-- 대표자명 -->
+        <div>
+            <label for="ceo_name">대표자명:</label>
+            <input type="text" id="ceo_name" name="ceo_name" maxlength="100">
+        </div>
+
+        <!-- 업체전화번호 -->
+        <div>
+            <label for="company_tel">업체전화번호:</label>
+            <input type="tel" id="company_tel" name="company_tel" maxlength="20" placeholder="02-123-4567">
+        </div>
+
+        <!-- 업태 --> 
+        <div>
+            <label for="business_type">업태:</label>
+            <input type="text" id="business_type" name="business_type" maxlength="100">
+        </div>
+
+        <!-- 업종 -->
+        <div>
+            <label for="business_item">업종:</label>
+            <input type="text" id="business_item" name="business_item" maxlength="100">
+        </div>
+
+        <!-- 업체 우편번호 -->
+        <div>
+            <label for="company_zipcode">업체 우편번호:</label>
+            <input type="text" id="company_zipcode" name="company_zipcode" maxlength="10">
+            <button type="button">우편번호 찾기</button>
+        </div>
+
+        <!-- 업체 주소 -->
+        <div>
+            <label for="company_address1">업체 주소:</label>
+            <input type="text" id="company_address1" name="company_address1" maxlength="200">
+        </div>
+
+        <!-- 업체 상세주소 -->
+        <div>
+            <label for="company_address2">업체 상세주소:</label>
+            <input type="text" id="company_address2" name="company_address2" maxlength="200">
+        </div>
+
+        <!-- 사업자번호 -->
+        <div>
+            <label for="business_number">사업자번호:</label>
+            <input type="text" id="business_number" name="business_number" maxlength="20" placeholder="123-45-67890">
+        </div>
+
+        <!-- 사업자등록증 -->
+        <div>
+            <label for="business_license">사업자등록증:</label>
+            <input type="file" id="business_license" name="business_license" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+
+        <!-- 위임장 -->
+        <div>
+            <label for="power_of_attorney">위임장:</label>
+            <input type="file" id="power_of_attorney" name="power_of_attorney" accept=".pdf,.jpg,.jpeg,.png">
+        </div>
+
         <!-- 제출 버튼 -->
         <div>
             <button type="submit">회원가입</button>
@@ -104,13 +171,33 @@
 
 {% block foot %}
     <script>
-        async function handleLogin(event) {
+        async function handleJoin(event) {
             event.preventDefault();
 
             const formData = {
                 username: document.getElementById('username').value,
                 password: document.getElementById('password').value,
-                nickname: document.getElementById('nickname').value
+                nickname: document.getElementById('nickname').value,
+                fullname: document.getElementById('fullname').value,
+                birth_date: document.getElementById('birth_date').value,
+                mobile: document.getElementById('mobile').value,
+                telephone: document.getElementById('telephone').value,
+                zipcode: document.getElementById('zipcode').value,
+                address1: document.getElementById('address1').value,
+                address2: document.getElementById('address2').value,
+                email: document.getElementById('email').value,
+                email_consent: document.getElementById('email_consent').checked ? 'T' : 'F',
+                sms_consent: document.getElementById('sms_consent').checked ? 'T' : 'F',
+                referrer_username: document.getElementById('referrer_username').value,
+                company_name: document.getElementById('company_name').value,
+                ceo_name: document.getElementById('ceo_name').value,
+                company_tel: document.getElementById('company_tel').value,
+                business_type: document.getElementById('business_type').value,
+                business_item: document.getElementById('business_item').value,
+                company_zipcode: document.getElementById('company_zipcode').value,
+                company_address1: document.getElementById('company_address1').value,
+                company_address2: document.getElementById('company_address2').value,
+                business_number: document.getElementById('business_number').value
             };
 
             try {

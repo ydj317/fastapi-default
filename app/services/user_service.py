@@ -24,7 +24,13 @@ class UserService:
         user = await self.user_repo.get_by_username(join_request.username)
         if user is not None:
             raise SystemException('duplicate username')
-        return await self.user_repo.create(**join_request.model_dump())
+        join_data = join_request.model_dump()
+        join_data["password"] = hash_password(join_data["password"])
+        join_data["user_type"] = "b2b"
+        await self.user_repo.create(**join_data)
+        user = await self.user_repo.get_by_username(join_request.username)
+        join_data["user_id"] = user["id"]
+        return await self.user_info_repo.create(**join_data)
 
     async def login_user(self, username: str, password: str):
         user = await self.user_repo.get_by_username(username)

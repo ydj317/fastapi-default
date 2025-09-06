@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from databases import Database
 import sqlalchemy
-from datetime import datetime
+from app.utils.datetime import now_datetime
 from sqlalchemy import and_, or_, func
 from sqlalchemy.ext.declarative import declarative_base
+from app.utils.dict import filter_to_table_columns
 
 Base = declarative_base()
 
@@ -21,13 +22,16 @@ class BaseRepo(ABC):
     def _has_column(self, column_name: str) -> bool:
         return column_name in self.table.c
 
-    def _now(self):
-        return datetime.now()
-
     async def create(self, **values):
         if self._has_column("created_at") and "created_at" not in values:
-            values["created_at"] = self._now()
-        query = self.table.insert().values(**values)
+            values["created_at"] = now_datetime()
+        if self._has_column("updated_at") and "updated_at" not in values:
+            values["updated_at"] = now_datetime()
+        if self._has_column("is_deleted") and "is_deleted" not in values:
+            values["is_deleted"] = "F"
+        formated = filter_to_table_columns(values, self.table)
+        print(formated)
+        query = self.table.insert().values(**formated)
         return await self.db.execute(query)
 
     async def get_all(self):
@@ -42,8 +46,9 @@ class BaseRepo(ABC):
 
     async def update_by_id(self, id: int, **values):
         if self._has_column("updated_at"):
-            values["updated_at"] = self._now()
-        query = self.table.update().where(self.table.c.id == id).values(**values)
+            values["updated_at"] = now_datetime()
+        formated = filter_to_table_columns(values, self.table)
+        query = self.table.update().where(self.table.c.id == id).values(**formated)
         return await self.db.execute(query)
 
     async def delete_by_id(self, id: int):

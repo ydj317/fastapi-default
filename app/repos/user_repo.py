@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, DateTime, text
 from app.repos.base import Base, BaseRepo
 
+
 class User(Base):
     __tablename__ = "t_user"
     __table_args__ = {
@@ -12,9 +13,11 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, comment="고유 PK")
     username = Column(String(50), nullable=False, unique=True, index=True, comment="아이디")
     password = Column(String(200), nullable=False, comment="비밀번호")
+    Column("user_type", String(20), nullable=False, server_default="b2b", comment="회원 유형 (admin/b2b/b2c)")
     created_at = Column(DateTime, comment="생성일시")
     updated_at = Column(DateTime, comment="수정일시")
     is_deleted = Column(String(1), server_default=text("'F'"), comment="삭제 여부")
+
 
 class UserRepo(BaseRepo):
     @property

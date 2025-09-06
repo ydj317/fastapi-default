@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer, Date, DateTime, text
 from app.repos.base import Base, BaseRepo
 
+
 class UserInfo(Base):
     __tablename__ = "t_user_info"
     __table_args__ = {
@@ -8,7 +9,6 @@ class UserInfo(Base):
         "mysql_charset": "utf8mb4",
         "comment": "회원 추가정보"
     }
-
 
     id = Column(Integer, primary_key=True, autoincrement=True, comment="고유 PK")
     user_id = Column(String(50), index=True, comment="t_user 고유 PK")
