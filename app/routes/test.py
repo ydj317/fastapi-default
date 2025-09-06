@@ -10,8 +10,7 @@ from fastapi.responses import JSONResponse
 from uuid import uuid4
 from pathlib import Path
 from app.consumers.stream import publish_test_queue
-from app.utils import datetime
-from app.utils.datetime import Datetime
+from app.utils.datetime import now_timestamp
 
 router = APIRouter()
 
@@ -100,7 +99,7 @@ async def upload_images(files: List[UploadFile] = File(...)):
 @router.post("/test/publish")
 async def publish_message(data: dict):
     #await broker.declare_queue(events_queue)
-    now = Datetime.now_timestamp()
+    now = now_timestamp()
 
     data.update({"timestamp": now})
     await publish_test_queue(data)
