@@ -1,7 +1,6 @@
-from app.repos.base_repo import BaseRepo
 from sqlalchemy import Column, Integer, String, DateTime
+from app.repos.base import Base, BaseRepo
 
-from app.repos.base import Base
 
 class Logs(Base):
     __tablename__ = "t_logs"
@@ -18,6 +17,7 @@ class Logs(Base):
     username = Column(String(200), nullable=False, comment="사용자ID")
     trace_id = Column(String(100), nullable=False, comment="트레이스 ID")
     created_at = Column(DateTime, nullable=False, comment="생성일시")
+
 
 class LogsRepo(BaseRepo):
     @property

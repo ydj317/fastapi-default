@@ -28,8 +28,9 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from app.repos.base import Base
-from app.repos.user_repo import User
 from app.repos.logs_repo import Logs
+from app.repos.user_repo import User
+from app.repos.user_info_repo import UserInfo
 
 target_metadata = Base.metadata
 
