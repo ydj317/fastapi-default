@@ -1,22 +1,25 @@
 from app.repos.base_repo import BaseRepo
-import sqlalchemy
+from sqlalchemy import Column, Integer, String, DateTime
 
-table = sqlalchemy.Table(
-    "t_logs",
-    sqlalchemy.MetaData(),
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("status", sqlalchemy.String(length=10)),
-    sqlalchemy.Column("message", sqlalchemy.String(length=255)),
-    sqlalchemy.Column("data", sqlalchemy.Text),
-    sqlalchemy.Column("username", sqlalchemy.String(length=200)),
-    sqlalchemy.Column("trace_id", sqlalchemy.String(length=100)),
-    sqlalchemy.Column("created_at", sqlalchemy.DateTime),
-    mysql_engine="InnoDB",
-    mysql_charset="utf8mb4",
-)
+from app.repos.base import Base
 
+class Logs(Base):
+    __tablename__ = "t_logs"
+    __table_args__ = {
+        "mysql_engine": "InnoDB",
+        "mysql_charset": "utf8mb4",
+        "comment": "로그 정보"
+    }
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="고유 PK")
+    status = Column(String(200), nullable=False, comment="상태")
+    message = Column(String(200), nullable=False, comment="메시지")
+    data = Column(String(200), nullable=False, comment="데이터")
+    username = Column(String(200), nullable=False, comment="사용자ID")
+    trace_id = Column(String(100), nullable=False, comment="트레이스 ID")
+    created_at = Column(DateTime, nullable=False, comment="생성일시")
 
 class LogsRepo(BaseRepo):
     @property
     def table(self):
-        return table
+        return Logs.__table__

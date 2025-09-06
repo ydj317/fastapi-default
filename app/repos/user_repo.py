@@ -1,7 +1,5 @@
-import sqlalchemy
-
 from sqlalchemy import Column, Integer, String, Date, DateTime, text
-from app.repos.base import Base  # declarative_base()로 정의된 Base
+from app.repos.base import Base
 from app.repos.base_repo import BaseRepo
 
 class User(Base):
