@@ -4,6 +4,7 @@ import sqlalchemy
 from datetime import datetime
 from sqlalchemy import and_, or_, func
 
+
 class BaseRepo(ABC):
     def __init__(self, db: Database):
         self.db = db
