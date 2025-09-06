@@ -20,7 +20,7 @@ async def user_join(
         join_request: JoinRequest,
         user_service: UserService = Depends(Provide[Container.user_service])
 ):
-    await user_service.join_user(join_request.username, join_request.password, join_request.nickname)
+    await user_service.join_user(join_request)
     return Res()
 
 @router.post("/api/user/login", response_model=Res)
