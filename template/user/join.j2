@@ -201,15 +201,7 @@
             };
 
             try {
-                const response = await fetch('/api/user/join', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
+                const result = await callApi('POST', '/api/user/join', formData);
 
                 if (result.code === 200) {
                     alert('Joined!')

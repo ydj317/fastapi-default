@@ -28,15 +28,7 @@
             };
 
             try {
-                const response = await fetch('/api/user/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
+                const result = await callApi('POST', '/api/user/login', formData);
 
                 if (result.code === 200) {
                     // Set cookie with 2 hour expiration
