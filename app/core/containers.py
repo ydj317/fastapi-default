@@ -1,11 +1,11 @@
 from dependency_injector import containers, providers
 from app.core.database import get_database
 from app.repos.logs_repo import LogsRepo
+from app.repos.user_info_repo import UserInfoRepo
 from app.repos.user_repo import UserRepo
 from app.services.user_service import UserService
 from app.core.redis import get_redis
 from app.utils.logs import Logs
-
 
 
 async def init_logs(logs_repo: LogsRepo):
@@ -16,8 +16,8 @@ async def init_logs(logs_repo: LogsRepo):
     finally:
         pass
 
-class Container(containers.DeclarativeContainer):
 
+class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(packages=["app.routes"])
 
     config = providers.Configuration()
@@ -40,7 +40,6 @@ class Container(containers.DeclarativeContainer):
     logs_init = providers.Resource(init_logs, logs_repo=logs_repo)
 
     user_repo = providers.Singleton(UserRepo, db=db)
+    user_info_repo = providers.Singleton(UserInfoRepo, db=db)
 
-    user_service = providers.Singleton(UserService, user_repo=user_repo)
-
-
+    user_service = providers.Singleton(UserService, user_repo=user_repo, user_info_repo=user_info_repo)

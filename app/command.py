@@ -2,6 +2,7 @@ import asyncio
 import sys
 from dependency_injector.wiring import Provide, inject
 from app.core.containers import Container
+from app.core.settings import settings
 from app.services.user_service import UserService
 
 # python -m app.command list
@@ -14,6 +15,7 @@ async def list_users(service: UserService = Provide[Container.user_service]):
 
 async def main():
     container = Container()
+    container.config.from_dict(settings.dict())
     await container.init_resources()
     container.wire(modules=[__name__])
 

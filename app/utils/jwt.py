@@ -1,6 +1,6 @@
 from jose import jwt, JWTError
 from app.schemas.token import TokenInfo
-from app.utils.datetime import Datetime
+from app.utils.datetime import now_timestamp
 from app.core.settings import settings
 import traceback
 import uuid
@@ -15,9 +15,9 @@ def create_token(token_info: TokenInfo, token_ttl: int = 7200):
         "iss": JWT_ISSUER,
         "aud": JWT_AUDIENCE,
         "jti": uuid.uuid4().hex,
-        "iat": Datetime.now_timestamp(),
-        "nbf": Datetime.now_timestamp() - 30,
-        "exp": Datetime.now_timestamp() + token_ttl,
+        "iat": now_timestamp(),
+        "nbf": now_timestamp() - 30,
+        "exp": now_timestamp() + token_ttl,
     })
     return jwt.encode(dict(token_info), JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
